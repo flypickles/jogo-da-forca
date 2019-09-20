@@ -1,30 +1,38 @@
 import random
-#Funções
+
 def abertura():
     print("\n***** !BEM VINDO AO JOGO DA FORCA DO LUANZINHO! *****\n")
     print("\n*****   !APENAS POKEMONS DA PRIMEIRA GERAÇÃO!   *****\n")
-    
-def palavra_secreta():
-    global palavras
+
+
+def palavraSecreta():
     palavras = []
-    palavras_acertadas = []
-    arq = open('C:/Temp/Trabalho Python/Jogo da Forca/palavras.txt', 'r')
+    arq = open('D:/GitHub/jogo-da-forca/Jogo da Forca/palavras.txt', 'r')
+    # definir o caminho padrão, não esquece
 
     for linhas in arq:
         linhas = linhas.rstrip()
         palavras.append(linhas)
     arq.close()
-    
-    palavraRandom = random.choice(palavras)
 
-    for i in range(len(palavraRandom)):
+    palavra_random = random.choice(palavras)
+
+    return palavra_random
+
+def inicializaPalavraSecreta():
+    palavras_acertadas = []
+
+    for i in range(len(palavraSecreta())):
         palavras_acertadas.append("_")
-    
-    print(palavras_acertadas)
-     
-def pede_chute():
+
+    return palavras_acertadas
+
+def pedeChute(chute):
     chute = input("Chute uma letra: ")
-    
+    if len(chute) != 1:
+        print("Chute apenas UMA letra!")
+    return chute
+
 
 def desenho(erros):
     if erros == 0:
@@ -102,4 +110,4 @@ enforcou = False
 acertou = False
 erros = 0
 
-palavra_secreta()
+#nada da certo foda-se
