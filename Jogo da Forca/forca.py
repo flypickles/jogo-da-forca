@@ -14,23 +14,20 @@ def palavraSecreta():
         palavras.append(linhas)
     arq.close()
 
-    palavra_random = random.choice(palavras)
+    palavra_random = list(random.choice(palavras))
 
     return palavra_random
 
-def palavraOculta():
+def palavraOculta(passwd):
     letras_ocultas = []
 
-    for i in range(len(palavraSecreta())):
+    for i in range(len(passwd)):
         letras_ocultas.append("_")
 
     return letras_ocultas
 
-def pedeChute(chute):
-    chute = input("Chute uma letra: ")
-    if len(chute) != 1:
-        print("Chute apenas UMA letra!")
-    return chute
+# def pedeChute()
+    
 
 def desenho(erros):
     if erros == 0:
@@ -107,16 +104,17 @@ def desenho(erros):
 
 acertou = False
 enforcou = False
-chute = ""
+passwd = palavraSecreta()
+
+print(passwd)
+print(palavraOculta(passwd))                # Isso não da certo.
 
 while acertou == False and enforcou == False:
-    print(pedeChute(chute))
-    
+    chute = input("Qual letra você chuta? ")
+
     for i in range(len(palavraSecreta())):
-        if chute in palavraSecreta()[i]:
+        if chute == passwd[i]:
             palavraOculta()[i] = chute
-    
-#error  
+        palavraOculta()
 
-
-          
+#erro erro erro erro
