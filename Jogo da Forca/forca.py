@@ -1,4 +1,10 @@
 import random
+import pygame
+
+pygame.mixer.init()
+
+pygame.mixer.music.load('battle.mp3')
+pygame.mixer.music.play()
 
 erros = 0
 letras_acertadas = []
@@ -139,8 +145,7 @@ while acertou == False and enforcou == False:
         
     if (letra not in palavra_random and letra not in letras_erradas and len(letra) == 1):
         erros += 1
-        if (letra not in letras_erradas):
-            letras_erradas.append(letra)
+        letras_erradas.append(letra)
 
     if (letras_ocultas == palavra_random):
         print("Acertou!")
