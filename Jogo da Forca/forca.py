@@ -2,50 +2,51 @@ import random
 import pygame
 
 pygame.mixer.init()
+pygame.init()
 
-pygame.mixer.music.load('battle.mp3')
+pygame.mixer.music.load("battle.mp3")
 pygame.mixer.music.play()
-
-erros = 0
-letras_acertadas = []
-letras_erradas = []
+pygame.mixer.music.set_volume(0.4)
 
 def abertura():
-    print("\n*****        BEM VINDO AO JOGO DA FORCA!       *****")
-    print("\n*****   APENAS POKEMONS DA PRIMEIRA GERAÇÃO!   *****")
+    print("\n*****        BEM VINDO AO JOGO DA FORCA         *****")
+    print("\n*****    APENAS POKEMONS DA PRIMEIRA GERAÇÃO!   *****")
 
+#palavraSecreta() Vai ler o arquivo palavras.txt, jogar as palavras para um array, pegar uma palavra aleatória do array e transformar em lista   
 def palavraSecreta():
     palavras = []
-    arq = open('C:\Temp\Trabalho Python\Jogo da Forca\palavras.txt', 'r')
-    #definir um caminho que funcione em qualquer lugar 
+    arq = open('palavras.txt', 'r')
 
-    for linhas in arq: #adiciona a lista de palavras para um array
+    for linhas in arq: 
         linhas = linhas.rstrip()
         palavras.append(linhas)
     arq.close()
 
     global palavra_random
-    palavra_random = list(random.choice(palavras)) #pega uma palavra aleatória do array e transforma em lista
+    palavra_random = list(random.choice(palavras)) 
 
+#palavraOculta() Vai receber a palavra aleatória, ver quantos caracteres ela tem e adicionar "_" no lugar
 def palavraOculta():
     global letras_ocultas 
     letras_ocultas = []
     
-    for i in range(len(palavra_random)): #transforma a palavra aleatoria em "_" para ficar oculta
+    for i in range(len(palavra_random)): 
         letras_ocultas.append("_")
-    
+
+#pedeChute() Pede uma letra e já transforma ela em maiúscula e retirar qualquer espaço que houver    
 def pedeChute():
     global letra
-    letra = input("Chute uma letra: ").upper().strip() #pede uma letra e já transforma ela em maiúscula e retirar qualquer espaço que houver
+    letra = input("Chute uma letra: ").upper().strip()
     
-def marcaChute(): #vai conferir em qual posição da palavra se encontra a letra e substituir em "letras_ocultas"
+#marcaChute() vai conferir em qual posição da palavra se encontra a letra e substituir em "letras_ocultas"    
+def marcaChute(): 
     for x in range (len(palavra_random)):
         if letra == palavra_random[x]:
             letras_ocultas[x] = letra
     print()
     print()
-
-def desenho(numErros): #conforme os chutes errados aumentam, a forca vai se montando
+#desenho() Monta o desenho da forca conforme o jogador erra o chute
+def desenho(numErros): 
     if numErros == 0:
         print()
         print("|----- ")
@@ -54,7 +55,7 @@ def desenho(numErros): #conforme os chutes errados aumentam, a forca vai se mont
         print("|      ")
         print("|      ")
         print("|      ")
-        print("_      ")
+        print("__________")
         print()
     elif numErros == 1:
         print()
@@ -64,7 +65,7 @@ def desenho(numErros): #conforme os chutes errados aumentam, a forca vai se mont
         print("|      ")
         print("|      ")
         print("|      ")
-        print("_      ")
+        print("__________")
         print()
     elif numErros == 2:
         print()
@@ -74,7 +75,7 @@ def desenho(numErros): #conforme os chutes errados aumentam, a forca vai se mont
         print("|    | ")
         print("|    | ")
         print("|      ")
-        print("_      ")
+        print("__________")
         print()
     elif numErros == 3:
         print()
@@ -84,7 +85,7 @@ def desenho(numErros): #conforme os chutes errados aumentam, a forca vai se mont
         print("|    |\ ")
         print("|    | ")
         print("|      ")
-        print("_      ")
+        print("__________")
         print()
     elif numErros == 4:
         print()
@@ -94,7 +95,7 @@ def desenho(numErros): #conforme os chutes errados aumentam, a forca vai se mont
         print("|   /|\ ")
         print("|    | ")
         print("|      ")
-        print("_      ")
+        print("__________")
         print()
     elif numErros == 5:
         print()
@@ -104,18 +105,22 @@ def desenho(numErros): #conforme os chutes errados aumentam, a forca vai se mont
         print("|   /|\ ")
         print("|    | ")
         print("|     \ ")
-        print("_      ")
+        print("__________")
         print()
     elif numErros == 6:
         print()
         print("|----- ")
         print("|    | ")
-        print("|    0 ")
+        print("|    0   'p-pikachu...' ")
         print("|   /|\ ")
         print("|    | ")
         print("|   / \ ")
-        print("_      ")
+        print("__________")
         print()
+
+erros = 0
+letras_acertadas = []
+letras_erradas = []
 
 acertou = False
 enforcou = False
@@ -135,6 +140,7 @@ while acertou == False and enforcou == False:
 
     if (len(letra) != 1):
         print("\nDigite apenas UMA letra")
+        
     elif (letra in letras_acertadas or letra in letras_erradas):
         print("\nVocê já tentou essa letra")
     
@@ -151,8 +157,20 @@ while acertou == False and enforcou == False:
         print("Acertou!")
         print("A palavra secreta era: {}" .format(palavra_random))
         acertou = True
+
+        pygame.mixer.pause()
+        pygame.mixer.music.load("victory.mp3")
+        pygame.mixer.music.play()
+        pygame.event.wait()
+        
+        
     elif (erros == 6):
         enforcou = True
         desenho(6)
         print("Você perdeu!")
         print("A palavra secreta era: {}" .format(palavra_random))
+        
+        pygame.mixer.pause()
+        pygame.mixer.music.load("defeat.mp3")
+        pygame.mixer.music.play()
+        pygame.event.wait()
